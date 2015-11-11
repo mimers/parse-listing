@@ -29,10 +29,9 @@
 var RE_UnixEntry = new RegExp(
   "([bcdlfmpSs-])"
     + "(((r|-)(w|-)([xsStTL-]))((r|-)(w|-)([xsStTL-]))((r|-)(w|-)([xsStTL-])))\\+?\\s+"
-    + "(\\d+)\\s+"
     + "(\\S+)\\s+"
-    + "(?:(\\S+)\\s+)?"
-    + "(\\d+)\\s+"
+    + "(\\S+)\\s+"
+    + "([\\d\\s]+)\\s+"
 
     //numeric or standard format date
     + "((?:\\d+[-/]\\d+[-/]\\d+)|(?:\\S+\\s+\\S+))\\s+"
@@ -183,23 +182,23 @@ var parsers = {
     if (group) {
       var type = group[1];
       //var hardLinks = group[15];
-      var usr = group[16];
-      var grp = group[17];
-      var size = group[18];
-      var name = group[21];
+      var usr = group[15];
+      var grp = group[16];
+      var size = group[17];
+      var name = group[20];
 
       var date;
       // Check whether we are given the time (recent file) or the year
       // (older file) in the file listing.
-      if (group[20].indexOf(":") === -1) {
-        date = +new Date(group[19] + " " + group[20]).getTime();
+      if (group[19].indexOf(":") === -1) {
+        date = +new Date(group[18] + " " + group[19]).getTime();
       }
       else {
         var currentMonth = new Date().getMonth();
-        var month = new Date(group[19]).getMonth();
+        var month = new Date(group[18]).getMonth();
         var year = new Date().getFullYear() - (currentMonth < month ? 1 : 0);
 
-        date = +new Date(group[19] + " " + group[20] + " " + year);
+        date = +new Date(group[18] + " " + group[18] + " " + year);
       }
 
       // Ignoring '.' and '..' entries for now
