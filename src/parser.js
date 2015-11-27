@@ -190,7 +190,7 @@ var parsers = {
       var date;
       // Check whether we are given the time (recent file) or the year
       // (older file) in the file listing.
-      if (group[19].indexOf(":") === -1) {
+      if (group[19].indexOf(":") != -1) {
         date = +new Date(group[18] + " " + group[19]).getTime();
       }
       else {
